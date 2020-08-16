@@ -289,7 +289,7 @@
     {
         "name": "CSS Typed OM Level 1",
         "status": {
-            "status": "Under Development"
+            "status": "In Development"
         },
         "url": "https://drafts.css-houdini.org/css-typed-om/",
         "keywords": ["css", "houdini"],
