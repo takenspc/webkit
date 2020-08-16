@@ -301,6 +301,25 @@ CSSFontFace& CSSFontFaceSet::operator[](size_t i)
     return m_faces[i];
 }
 
+static FontSelectionValue convertFontWeightFromValue(const CSSValue& value)
+{
+    ASSERT(is<CSSPrimitiveValue>(value));
+    auto& primitiveValue = downcast<CSSPrimitiveValue>(value);
+
+    // https://drafts.csswg.org/css-font-loading/#find-the-matching-font-faces
+    // bolder and lighter is evaluated against "normal"
+    switch (primitiveValue.valueID()) {
+    case CSSValueBolder:
+        return FontCascadeDescription::bolderWeight(normalWeightValue());
+    case CSSValueLighter:
+        return FontCascadeDescription::lighterWeight(normalWeightValue());
+    default:
+        break;
+    }
+
+    return Style::BuilderConverter::convertFontWeightFromAbsoluteValue(value);
+}
+
 static ExceptionOr<FontSelectionRequest> computeFontSelectionRequest(MutableStyleProperties& style)
 {
     RefPtr<CSSValue> weightValue = style.getPropertyCSSValue(CSSPropertyFontWeight).get();
@@ -318,7 +337,7 @@ static ExceptionOr<FontSelectionRequest> computeFontSelectionRequest(MutableStyl
     if (weightValue->isGlobalKeyword() || stretchValue->isGlobalKeyword() || styleValue->isGlobalKeyword())
         return Exception { SyntaxError };
 
-    auto weightSelectionValue = Style::BuilderConverter::convertFontWeightFromValue(*weightValue);
+    auto weightSelectionValue = convertFontWeightFromValue(*weightValue);
     auto stretchSelectionValue = Style::BuilderConverter::convertFontStretchFromValue(*stretchValue);
     auto styleSelectionValue = Style::BuilderConverter::convertFontStyleFromValue(*styleValue);
 

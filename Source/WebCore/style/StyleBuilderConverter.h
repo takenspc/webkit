@@ -129,7 +129,7 @@ public:
 #endif
     static FontFeatureSettings convertFontFeatureSettings(BuilderState&, const CSSValue&);
     static bool convertSmoothScrolling(BuilderState&, const CSSValue&);
-    static FontSelectionValue convertFontWeightFromValue(const CSSValue&);
+    static FontSelectionValue convertFontWeightFromAbsoluteValue(const CSSValue&);
     static FontSelectionValue convertFontStretchFromValue(const CSSValue&);
     static Optional<FontSelectionValue> convertFontStyleFromValue(const CSSValue&);
     static FontSelectionValue convertFontWeight(BuilderState&, const CSSValue&);
@@ -1249,7 +1249,7 @@ inline FontFeatureSettings BuilderConverter::convertFontFeatureSettings(BuilderS
     return settings;
 }
 
-inline FontSelectionValue BuilderConverter::convertFontWeightFromValue(const CSSValue& value)
+inline FontSelectionValue BuilderConverter::convertFontWeightFromAbsoluteValue(const CSSValue& value)
 {
     ASSERT(is<CSSPrimitiveValue>(value));
     auto& primitiveValue = downcast<CSSPrimitiveValue>(value);
@@ -1262,10 +1262,7 @@ inline FontSelectionValue BuilderConverter::convertFontWeightFromValue(const CSS
     case CSSValueNormal:
         return normalWeightValue();
     case CSSValueBold:
-    case CSSValueBolder:
         return boldWeightValue();
-    case CSSValueLighter:
-        return lightWeightValue();
     default:
         ASSERT_NOT_REACHED();
         return normalWeightValue();
@@ -1315,7 +1312,7 @@ inline FontSelectionValue BuilderConverter::convertFontWeight(BuilderState& buil
         if (valueID == CSSValueLighter)
             return FontCascadeDescription::lighterWeight(builderState.parentStyle().fontDescription().weight());
     }
-    return convertFontWeightFromValue(value);
+    return convertFontWeightFromAbsoluteValue(value);
 }
 
 inline FontSelectionValue BuilderConverter::convertFontStretch(BuilderState&, const CSSValue& value)
