@@ -226,11 +226,6 @@ constexpr FontSelectionValue normalWeightValue()
     return FontSelectionValue { 400 };
 }
 
-constexpr FontSelectionValue lightWeightValue()
-{
-    return FontSelectionValue { 200 };
-}
-
 constexpr bool isFontWeightBold(FontSelectionValue fontWeight)
 {
     return fontWeight >= boldThreshold();

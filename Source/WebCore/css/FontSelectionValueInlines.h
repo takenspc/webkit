@@ -57,21 +57,6 @@ inline Optional<CSSValueID> fontWeightKeyword(FontSelectionValue weight)
     return WTF::nullopt;
 }
 
-inline Optional<FontSelectionValue> fontWeightValue(CSSValueID value)
-{
-    switch (value) {
-    case CSSValueNormal:
-        return normalWeightValue();
-    case CSSValueBold:
-    case CSSValueBolder:
-        return boldWeightValue();
-    case CSSValueLighter:
-        return lightWeightValue();
-    default:
-        return WTF::nullopt;
-    }
-}
-
 inline Optional<CSSValueID> fontStretchKeyword(FontSelectionValue stretch)
 {
     if (stretch == ultraCondensedStretchValue())
