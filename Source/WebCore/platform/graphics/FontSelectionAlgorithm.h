@@ -196,9 +196,9 @@ constexpr FontSelectionValue italicThreshold()
     return FontSelectionValue { 20 };
 }
 
-constexpr bool isItalic(Optional<FontSelectionValue> fontWeight)
+constexpr bool isItalic(Optional<FontSelectionValue> fontStyle)
 {
-    return fontWeight && fontWeight.value() >= italicThreshold();
+    return fontStyle && fontStyle.value() >= italicThreshold();
 }
 
 constexpr FontSelectionValue normalItalicValue()
